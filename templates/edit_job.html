@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Job</title>
+</head>
+<body>
+    <h1>Edit Job</h1>
+    <form method="POST">
+        <label>Company:</label><br>
+        <input type="text" name="CompanyName" value="{{ company.Name }}" required><br>
+        <label>Company Description:</label><br>
+        <textarea name="CompanyDescription" rows="10" cols="100">{{ company.Description }}</textarea><br>
+        <label>Company Link:</label><br>
+        <input type="url" name="CompanyLink" value="{{ company.Link }}" cols="50"><br>
+        <label>Role:</label><br>
+        <input type="text" name="JobRole" value="{{ job.Role }}" required><br>
+        <label>Role Link:</label><br>
+        <input type="url" name="JobLink" value="{{ job.Link }}" cols="50"><br>
+        <label>Date Applied (YYYY-MM-DD):</label><br>
+        <input type="date" name="ApplicationDate" value="{{ job.ApplicationDate }}" required><br>
+        <label>Application Status:</label><br>
+        <input type="text" name="ApplicationStatus" value="{{ job.ApplicationStatus }}" required><br>
+        <label>Application Notes:</label><br>
+        <textarea name="ApplicationNotes" rows="10" cols="100">{{ job.Notes }}</textarea><br><br>
+        <button type="submit">Save</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>

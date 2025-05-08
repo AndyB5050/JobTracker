@@ -1,0 +1,32 @@
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #f4f4f4;
+    text-align: left;
+}
+
+/* Row colors based on ApplicationStatus */
+.status-applied {
+    background-color: #f0f8ff; /* Light blue */
+}
+
+.status-interview {
+    background-color: #ffffe0; /* Light yellow */
+}
+
+.status-offered {
+    background-color: #d4edda; /* Light green */
+}
+
+.status-rejected {
+    background-color: #f8d7da; /* Light red */
+}

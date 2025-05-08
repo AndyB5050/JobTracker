@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Tracker</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll("#columnToggle input[type='checkbox']");
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function () {
+                    const columnClass = this.getAttribute("data-column");
+                    const cells = document.querySelectorAll("." + columnClass);
+                    cells.forEach(cell => {
+                        cell.style.display = this.checked ? "" : "none";
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const removeButton = document.getElementById("removeButton");
+            const statusFilter = document.getElementById("statusFilter");
+    
+            removeButton.addEventListener("click", function () {
+                const selectedStatus = statusFilter.value;
+                if (!selectedStatus) {
+                    alert("Please select a status to remove rows.");
+                    return;
+                }
+    
+                // Find all rows in the table
+                const rows = document.querySelectorAll("#jobTable tbody tr");
+    
+                rows.forEach(row => {
+                    // Check if the row's ApplicationStatus matches the selected status
+                    const statusCell = row.querySelector(".colApplicationStatus");
+                    if (statusCell && statusCell.textContent.trim() === selectedStatus) {
+                        row.remove(); // Remove the row
+                    }
+                });
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <h1>Job Tracker</h1>
+    <a href="/add">Add Job</a>
+     <!-- Filter Form -->
+    <form method="GET" action="/">
+        <label for="filter_company">Filter by Company:</label>
+        <input type="text" id="filter_company" name="filter_company" value="{{ filter_company }}">
+        <button type="submit">Filter</button>
+    </form>
+    <div id="removeRows">
+        <label for="statusFilter">Remove Rows by Status:</label>
+        <select id="statusFilter">
+            <option value="" disabled selected>Select Status</option>
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Offered">Offered</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+        <button id="removeButton">Remove Rows</button>
+    </div>
+    <!-- Table -->
+    <table border="1" id="jobTable">
+        <tr>
+            <th class="colCompanyName"><a href="/?sort_by=companies.Name&sort_order={{ 'desc' if sort_by == 'companies.Name' and sort_order == 'asc' else 'asc' }}">Company Name</a></th>
+            <th class="colJobRole"><a href="/?sort_by=jobs.Role&sort_order={{ 'desc' if sort_by == 'jobs.Role' and sort_order == 'asc' else 'asc' }}">Job Role</a></th>
+            <th class="colCompanyDescription">Company Description</th>
+            <th class="colApplicationDate"><a href="/?sort_by=jobs.ApplicationDate&sort_order={{ 'desc' if sort_by == 'jobs.ApplicationDate' and sort_order == 'asc' else 'asc' }}">Application Date</a></th>
+            <th class="colStatus">Status</th>
+            <th class="colNotes">Notes</th>
+            <th>Actions</th>
+        </tr>
+        {% for job in joblist %}
+        <!-- Color code the rows based on ApplicationStatus -->
+        <tr class="
+            {% if job.jobs.ApplicationStatus == 'Applied' %}status-applied
+            {% elif job.jobs.ApplicationStatus == 'Interview' %}status-interview
+            {% elif job.jobs.ApplicationStatus == 'Offered' %}status-offered
+            {% elif job.jobs.ApplicationStatus == 'Rejected' %}status-rejected
+            {% endif %}
+        ">
+            <td class="colCompanyName">{{ job.companies.Name }}</td>
+            <td class="colJobRole">{{ job.jobs.Role }}</td>
+            <td class="colCompanyDescription">{{ job.companies.Description }}</td>
+            <td class="colApplicationDate">{{ job.jobs.ApplicationDate }}</td>
+            <td class="colApplicationStatus">{{ job.jobs.ApplicationStatus }}</td>
+            <td class="colNotes">{{ job.jobs.Notes }}</td>
+            <td><a href="{{ url_for('edit_job', index=job.jobs.idJobs) }}">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div id="columnToggle">
+        <label><input type="checkbox" data-column="colCompanyName" checked> Company Name</label>
+        <label><input type="checkbox" data-column="colJobRole" checked> Job Role</label>
+        <label><input type="checkbox" data-column="colCompanyDescription" checked> Company Description</label>
+        <label><input type="checkbox" data-column="colApplicationDate" checked> Application Date</label>
+        <label><input type="checkbox" data-column="colApplicationStatus" checked> Status</label>
+        <label><input type="checkbox" data-column="colNotes" checked> Notes</label>
+    </div>
+</body>
+</html>
