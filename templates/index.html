@@ -51,22 +51,42 @@
         <a href="/add" class="btn btn-primary mb-3">Add Job</a>
         <!-- Filter Form -->            
         <form method="GET" action="/">
-            <div class="mb-3">
-                <label for="filter_company" class="form-label">Filter by Company:</label>
-                <input type="text" id="filter_company" name="filter_company" class="form-control" value="{{ filter_company }}">
+            <div class="row g-3 align-items-end">
+                
+                <!-- Filter by Company -->
+                <div class="col-md-3">
+                    <label for="filter_company" class="form-label">Filter by Company:</label>
+                    <input type="text" id="filter_company" name="filter_company" class="form-control" value="{{ filter_company }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+
+                <!-- Remove Rows by Status -->
+                <div id="removeRows" class="col-md-3">
+                    <label for="statusFilter" class="form-label">Remove Rows by Status:</label>
+                    <select id="statusFilter" class="form-select me-2">
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="Applied">Applied</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Offered">Offered</option>
+                        <option value="Rejected">Rejected</option>
+                    </select> 
+                </div>
+                <div class="col-md-3">
+                    <button type="button" id="removeButton" class="btn btn-danger">Remove</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
         </form>
-        <div id="removeRows" class="mb-3">
-            <label for="statusFilter" class="form-label">Remove Rows by Status:</label>
-            <select id="statusFilter" class="form-select">
-                <option value="" disabled selected>Select Status</option>
-                <option value="Applied">Applied</option>
-                <option value="Interview">Interview</option>
-                <option value="Offered">Offered</option>
-                <option value="Rejected">Rejected</option>
-            </select>
-            <button id="removeButton" class="btn btn-danger mt-2">Remove Rows</button>
+        
+        
+        <div id="columnToggle" class="mb-3">
+            <label><input type="checkbox" data-column="colCompanyName" checked> Company Name</label>
+            <label><input type="checkbox" data-column="colJobRole" checked> Job Role</label>
+            <label><input type="checkbox" data-column="colCompanyDescription" checked> Company Description</label>
+            <label><input type="checkbox" data-column="colApplicationDate" checked> Application Date</label>
+            <label><input type="checkbox" data-column="colApplicationStatus" checked> Status</label>
+            <label><input type="checkbox" data-column="colNotes" checked> Notes</label>
         </div>
         <!-- Table -->  
         <table class="table table-bordered" id="jobTable">
@@ -102,14 +122,8 @@
                 {% endfor %}    
             </tbody>
         </table>    
-        <div id="columnToggle" class="mb-3">
-            <label><input type="checkbox" data-column="colCompanyName" checked> Company Name</label>
-            <label><input type="checkbox" data-column="colJobRole" checked> Job Role</label>
-            <label><input type="checkbox" data-column="colCompanyDescription" checked> Company Description</label>
-            <label><input type="checkbox" data-column="colApplicationDate" checked> Application Date</label>
-            <label><input type="checkbox" data-column="colApplicationStatus" checked> Status</label>
-            <label><input type="checkbox" data-column="colNotes" checked> Notes</label>
-        </div>
+        
+        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     
